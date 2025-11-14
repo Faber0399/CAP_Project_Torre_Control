@@ -1,0 +1,21 @@
+{
+  "xsappname":"torrecontrol",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.TorreControlAdmin",
+      "description": "TorreControlAdmin"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "TorreControlAdmin",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.TorreControlAdmin"
+      ],
+      "attribute-references": []
+    }
+  ]
+}

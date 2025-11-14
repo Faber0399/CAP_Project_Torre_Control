@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+   {
+      "name": "cds watch localdev",
+      "request": "launch",
+      "type": "node",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "cds",
+      "args": [
+        "watch",
+        "--profile",
+        "localdev",
+        "--livereload",
+        "false"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ]
+}

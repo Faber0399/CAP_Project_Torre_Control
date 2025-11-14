@@ -1,0 +1,71 @@
+{
+  "name": "torrecontrol",
+  "version": "1.0.0",
+  "description": "Torre control ampliación de campos",
+  "dependencies": {
+    "@cap-js/postgres": "^2",
+    "@sap/cds": "^9.4.4",
+    "@sap/xssec": "^4",
+    "express": "^4",
+    "@sap-cloud-sdk/http-client": "^4.0.2",
+    "@sap-cloud-sdk/util": "^4.0.2"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9",
+    "mbt": "^1.2.34",
+    "rimraf": "^6.0.1"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "build_pg": "cds deploy --profile pg",
+    "localdev": "cds watch --profile localdev --livereload false",
+    "cds-watch": "cds watch --open",
+    "undeploy": "cf undeploy torrecontrol --delete-services --delete-service-keys --delete-service-brokers",
+    "deploy": "cf deploy mta_archives/torrecontrol_1.0.0.mtar --retries 1",
+    "gen-xs": "cds compile srv --to xsuaa > xs-security.json"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "auth": {
+        "[production]": {
+          "auth": {
+            "kind": "xsuaa"
+          }
+        },
+        "[localdev]": {
+          "kind": "mocked",
+          "users": {
+            "admin": {
+              "password": "admin",
+              "roles": [
+                "TorreControlAdmin"
+              ]
+            }
+          }
+        }
+      },
+      "db": {
+        "[production]": {
+          "kind": "postgres",
+          "model": "db/schema.cds",
+          "schema_evolution": true
+        },
+        "[localdev]": {
+          "kind": "postgres",
+          "model": "db/schema.cds",
+          "schema_evolution": false,
+          "credentials": {
+            "database": "postgres",
+            "host": "localhost",
+            "port": "5432",
+            "user": "postgres",
+            "password": "postgres"
+          }
+        }
+      }
+    }
+  }
+}
