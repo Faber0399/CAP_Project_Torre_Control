@@ -1,8 +1,22 @@
-using { com.qualitas as my } from '../db/schema';
-
 @path: 'TorreControlSRV'
-service TorreControlService   { 
-  
-  @(restrict: [{ grant: '*', to: 'TorreControlAdmin' }])
-  entity TorreControl as projection on my.TorreControl;
+service TorreControlService {
+
+  @(restrict: [{
+    grant: '*',
+    to   : 'TorreControlAdmin'
+  }])
+  @cds.persistence.exists
+  entity TorreControl {
+    key caseID      : UUID;
+    key reporteSise : String(11);
+        displayId   : String;
+        marca       : String;
+        modelo      : String;
+        placas      : String;
+        serie       : String;
+        descripcion : String;
+        color       : String;
+        codigoAmis  : String;
+        conductor   : String;
+  };
 }

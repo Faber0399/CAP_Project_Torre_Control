@@ -1,13 +1,14 @@
-const cds = require('@sap/cds');
-const axios = require('axios');
- 
-const LOG = cds.log('TorreControl');
 
-module.exports = (async function () {
+export default (async function () {
     
     this.on('READ', 'TorreControl', async (req, next) => {
-        LOG.info(JSON.stringify(req?.user));
-        LOG.info(JSON.stringify(req));
-        return next();
+        const { db } = cds.services;
+        let result = await db.run(
+            SELECT.columns(req.query.SELECT.columns)
+                .from("com.qualitas.TorreControl")
+                .where(req.query.SELECT.where)
+                .orderBy(req.query.SELECT.orderBy)
+        );
+        return result;
     });
 })
