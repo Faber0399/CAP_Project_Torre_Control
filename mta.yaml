@@ -28,6 +28,28 @@ modules:
       - name: postgresql-db
       - name: cloud-logging
 
+  - name: torrecontrol
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: torrecontrol-auth
+      - name: cloud-logging
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
+
   # - name: torrecontrol-postgres-deployer
   #   type: nodejs
   #   path: gen/pg
